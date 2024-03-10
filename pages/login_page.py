@@ -16,10 +16,10 @@ class LoginPage(BasePage):
         self.wait.until(EC.element_to_be_clickable(
             self.USERNAME_FIELD)).send_keys(login)
 
-    @allure.step('Заполнение поля "Password"')
     def enter_password(self, password):
-        self.wait.until(EC.element_to_be_clickable(
-            self.PASSWORD_FIELD)).send_keys(password)
+        with allure.step(f'Заполнение поля "Password"'):
+            self.wait.until(EC.element_to_be_clickable(
+                self.PASSWORD_FIELD)).send_keys(password)
 
     @allure.step('Нажатие на кнопку "Login"')
     def click_login_btn(self):
