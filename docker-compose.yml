@@ -5,7 +5,7 @@ services:
     image: python:3.12.0
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.txt
     volumes:
       - ./:/usr/workspace
     command: /bin/sh -c "ls -la && pytest -sv --alluredir=allure-results"
