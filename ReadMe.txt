@@ -1,7 +1,8 @@
 #-----------------------------#
  Используется Python 3.12
 #-----------------------------#
-
+Docker: python:3.12-alpine3.19
+#-----------------------------#
 
 Разрешения на компьютере для запуска виртуального окружения:
 -Разрешить скрипты для окружения
@@ -19,8 +20,7 @@
 
 
 Установка необходимых компонентов для автотестов с нуля:
- pip install selenium
- pip install webdriver-manager
+ pip install selenium pytest webdriver-manager allure-pytest dotenv
  pip freeze > requirements.txt
 
 Установка необходимых компонентов для автотестов из файла:
