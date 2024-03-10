@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"78eaf5b98946eadd6eac108221c539d2","name":"Проверка страницы магазина","statistic":{"failed":0,"broken":0,"skipped":0,"passed":2,"unknown":0,"total":2}},{"uid":"cc45005942e37e264f9cec53255f0276","name":"Проверка страницы авторизации","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}}]}
