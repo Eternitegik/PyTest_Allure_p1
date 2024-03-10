@@ -1,7 +1,7 @@
 FROM python:3.12.0
 # update apk repo
-RUN echo "https://dl-4.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories && \
-    echo "https://dl-4.alpinelinux.org/alpine/latest-stable/community" >> /etc/apk/repositories
+RUN echo "https://dl-4.alpinelinux.org/alpine/v3.19/main" >> /etc/apk/repositories && \
+    echo "https://dl-4.alpinelinux.org/alpine/v3.19/community" >> /etc/apk/repositories
 
 # install chromedriver
 RUN apk update
