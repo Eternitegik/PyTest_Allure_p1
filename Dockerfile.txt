@@ -1,12 +1,12 @@
 FROM python:3.12-alpine3.19
 # update apk repo
-RUN echo "ipv6" >> /etc/modules
-RUN echo "http://dl-1.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories \
-    echo "http://dl-2.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories \
-    echo "http://dl-3.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories \
-    echo "http://dl-4.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories \
-    echo "http://dl-5.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories \
-    echo "https://dl-cdn.alpinelinux.org/alpine/v3.19/community" >> /etc/apk/repositories
+# RUN echo "ipv6" >> /etc/modules
+# RUN echo "http://dl-1.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories \
+#     echo "http://dl-2.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories \
+#     echo "http://dl-3.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories \
+#     echo "http://dl-4.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories \
+#     echo "http://dl-5.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories \
+RUN   echo "https://dl-cdn.alpinelinux.org/alpine/v3.19/community" >> /etc/apk/repositories
 
 # install chromedriver
 RUN apk update
