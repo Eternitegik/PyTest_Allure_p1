@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       test-type:
-        description: 'Тип теста для запуска'
+        description: 'Тип тестов:'
         required: true
         default: 'all'
         options:
@@ -29,16 +29,16 @@ jobs:
         env:
           USER_LOGIN: ${{ secrets.USER_LOGIN }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
-          run: |
-            if [ "${{ github.event.inputs.test-type }}" == "all" ]; then
-              docker-compose up --exit-code-from regression || true
-            elif [ "${{ github.event.inputs.test-type }}" == "Authorization" ]; then
-              docker-compose up --exit-code-from regression || true
-              /bin/sh -c "ls -la && pytest -sv --alluredir=allure-results --allure-stories=Authorization"
-            elif [ "${{ github.event.inputs.test-type }}" == "Inventory" ]; then
-              docker-compose up --exit-code-from regression || true
-              /bin/sh -c "ls -la && pytest -sv --alluredir=allure-results --allure-stories=Inventory"
-            fi
+        run: |
+          if [ "${{ github.event.inputs.test-type }}" == "all" ]; then
+            docker-compose up --exit-code-from regression || true
+          elif [ "${{ github.event.inputs.test-type }}" == "Authorization" ]; then
+            docker-compose up --exit-code-from regression || true
+            /bin/sh -c "ls -la && pytest -sv --alluredir=allure-results --allure-stories=Authorization"
+          elif [ "${{ github.event.inputs.test-type }}" == "Inventory" ]; then
+            docker-compose up --exit-code-from regression || true
+            /bin/sh -c "ls -la && pytest -sv --alluredir=allure-results --allure-stories=Inventory"
+          fi
 
       - name: Copy history from gh-pages to allure-results
         run: |
