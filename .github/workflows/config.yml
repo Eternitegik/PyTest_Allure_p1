@@ -34,8 +34,7 @@ jobs:
           if [ "${{ github.event.inputs.test-type }}" == "all" ]; then
             docker-compose up --exit-code-from regression || true
           elif [ "${{ github.event.inputs.test-type }}" == "Authorization" ]; then
-            docker-compose up --exit-code-from regression || true
-            /bin/sh -c "ls -la && pytest -sv --alluredir=allure-results --allure-stories=Authorization"
+            docker-compose up --exit-code-from authorization || true
           elif [ "${{ github.event.inputs.test-type }}" == "Inventory" ]; then
             docker-compose up --exit-code-from regression || true
             /bin/sh -c "ls -la && pytest -sv --alluredir=allure-results --allure-stories=Inventory"
