@@ -35,7 +35,7 @@ jobs:
             export TEST_ARGS=""
             docker-compose up --exit-code-from regression || true
           else
-            export TEST_ARGS="--allure-stories=${{ github.event.inputs.test-type }}"
+            export TEST_ARGS="-m ${{ github.event.inputs.test-type }}"
             docker-compose up --exit-code-from regression
           fi
 

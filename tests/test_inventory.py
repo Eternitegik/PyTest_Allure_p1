@@ -1,9 +1,11 @@
 import allure
+import pytest
 from base.base_test import BaseTest
 
 
 @allure.feature("Проверка страницы товаров")
-@allure.story("Inventory")
+# @allure.story("Inventory")
+@pytest.mark.Inventory
 class TestInventory(BaseTest):
 
     @allure.title("Проверка открытия меню")

@@ -1,9 +1,10 @@
 import allure
+import pytest
 from base.base_test import BaseTest
 
 
 @allure.feature("Проверка страницы авторизации")
-@allure.story("Authorization")
+@pytest.mark.Authorization
 class TestLogin(BaseTest):
 
     @allure.title("Проверка на успешную авторизацию")
