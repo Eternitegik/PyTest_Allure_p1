@@ -21,37 +21,35 @@ class InventoryPage(BasePage):
     SHOPPING_CART_BADGE = (
         'xpath', '//div[@id="shopping_cart_container"]//span')
 
-    @allure.step('Проверка что меню открыто')
+    @allure.step('Проверка что меню открыто/закрыто')
     def menu_is_open(self):
         '''Возвращает True если меню открыто'''
         try:
-            self.fast_wait.until(
-                EC.visibility_of_element_located(self.CLOSE_MENU))
+            with allure.step(f'Меню открыто'):
+                self.fast_wait.until(
+                    EC.visibility_of_element_located(self.CLOSE_MENU))
             return True
         except TimeoutException:
-            return False
+            with allure.step(f'Меню закрыто'):
+                return False
 
     @allure.step('Открытие меню')
     def open_menu(self):
-        # self.wait.until(EC.element_to_be_clickable(self.OPEN_MENU)).click()
         self.element_clickable(self.OPEN_MENU).click()
 
-        # element = self.wait.until(EC.visibility_of_element_located(self.MENU))
         element = self.visibility_element(self.MENU)
         time.sleep(self.get_time_sleep(element))
 
     @allure.step('Закрытие меню')
     def close_menu(self):
-        # element = self.wait.until(EC.visibility_of_element_located(self.MENU))
         element = self.visibility_element(self.MENU)
 
-        # self.wait.until(EC.element_to_be_clickable(self.CLOSE_MENU)).click()
         self.element_clickable(self.CLOSE_MENU).click()
 
         time.sleep(self.get_time_sleep(element))
 
+    @allure.step('Переход на страницу корзины')
     def go_shopping_cart(self):
-        # self.wait.until(EC.element_to_be_clickable(self.SHOPPING_CART_CONTAINER)).click()
         self.element_clickable(self.SHOPPING_CART_CONTAINER).click()
 
     def check_text_item_btn(self, value):
@@ -59,9 +57,8 @@ class InventoryPage(BasePage):
             self.wait.until(EC.text_to_be_present_in_element(
                 self.ADD_TO_CART, value))
 
-    @allure.step('Нажатие на кнопку добавления, удаления предмета')
+    @allure.step('Нажатие на кнопку добавления/удаления предмета')
     def click_btn_add_cart(self):
-        # self.wait.until(EC.element_to_be_clickable(self.ADD_TO_CART)).click()
         self.element_clickable(self.ADD_TO_CART).click()
 
     def check_shopping_cart_badge(self, count=0):
@@ -77,22 +74,22 @@ class InventoryPage(BasePage):
                     assert True
         else:
             with allure.step(f'Проверка что у корзины есть бейдж со значением: "{count}"'):
-                # self.wait.until(EC.text_to_be_present_in_element(self.SHOPPING_CART_BADGE, str(count)))
                 self.text_to_be_present_in_element(
                     self.SHOPPING_CART_BADGE, str(count))
 
     def get_time_sleep(self, element):
+        '''Получение времени анимации элемента'''
         match = re.search(r'transition:\s*all\s*(\d+(?:\.\d+)?)s',
                           element.get_attribute("style"))
         return float(match.group(1)) + 0.1
 
+    @allure.step('Проверка что список продуктов не пуст')
     def list_products_not_empty(self):
-        # elements = self.wait.until(EC.visibility_of_all_elements_located(self.INVENTORY_LIST))
         elements = self.visibility_all_elements(self.INVENTORY_LIST)
         assert len(elements) != 0
 
+    @allure.step('Проверка наличия изображения в карточке товара')
     def check_product_img(self, id=0, img_name=''):
-        # element_src = self.wait.until(EC.visibility_of_element_located(('xpath', f'//a[@id="item_{id}_img_link"]/img'))).get_attribute("src")
         element_src = self.visibility_element(
             ('xpath', f'//a[@id="item_{id}_img_link"]/img')).get_attribute("src")
         assert element_src and "/static/media/" in element_src and element_src.endswith(
@@ -101,37 +98,41 @@ class InventoryPage(BasePage):
             assert img_name in element_src, f'Название изображение не соответствует {
                 img_name}. ССылка: {element_src}'
 
-    def check_product_description(self, id=0, pr_header='', pr_desc='', pr_price=''):
-        START_XPATH = f'//a[@id="item_{id}_title_link"]/parent::div/parent::div'
+    @allure.step('Проверка url в названии товара')
+    def check_product_url_header(self, id=0):
         LINK = ('xpath', f'//a[@id="item_{id}_title_link"]')
+        assert self.visibility_element(
+            LINK).get_attribute('id'), 'Атрибут "id" пуст'
+
+    @allure.step('Проверка названия товара')
+    def check_product_header(self, id=0, pr_header=''):
+        START_XPATH = f'//a[@id="item_{id}_title_link"]/parent::div/parent::div'
         HEADER = (
             'xpath', f'{START_XPATH}//div[contains(@class,"inventory_item_name")]')
-        DESCRIPTION = (
-            'xpath', f'{START_XPATH}//div[contains(@class,"inventory_item_desc")]')
-        PRICE = (
-            'xpath', f'{START_XPATH}//div[contains(@class,"inventory_item_price")]')
-
-        # element_link = self.wait.until(EC.visibility_of_element_located(LINK))
-        # element_header = self.wait.until(EC.visibility_of_element_located(HEADER))
-        # element_description = self.wait.until(EC.visibility_of_element_located(DESCRIPTION))
-        # element_price = self.wait.until(EC.visibility_of_element_located(PRICE))
-
-        element_link = self.visibility_element(LINK)
         element_header = self.visibility_element(HEADER)
-        element_description = self.visibility_element(DESCRIPTION)
-        element_price = self.visibility_element(PRICE)
-
-        assert element_link.get_attribute('id'), 'Атрибут "id" пуст'
         assert element_header.text, 'Заголовок пуст'
-        assert element_description.text, 'Описание пусто'
-        assert element_price.text, 'Цена пуста'
-
         if pr_header:
             assert pr_header in element_header.text, f'Заголовок не совпадает с "{
                 pr_header}". Текст: "{element_header.text}"'
+
+    @allure.step('Проверка описания товара')
+    def check_product_description(self, id=0, pr_desc=''):
+        START_XPATH = f'//a[@id="item_{id}_title_link"]/parent::div/parent::div'
+        DESCRIPTION = (
+            'xpath', f'{START_XPATH}//div[contains(@class,"inventory_item_desc")]')
+        element_description = self.visibility_element(DESCRIPTION)
+        assert element_description.text, 'Описание пусто'
         if pr_desc:
             assert pr_desc in element_description.text, f'Описание не совпадает с "{
-                pr_desc}". Текст: "{element_header.text}"'
+                pr_desc}". Текст: "{element_description.text}"'
+
+    @allure.step('Проверка цены товара')
+    def check_product_price(self, id=0, pr_price=''):
+        START_XPATH = f'//a[@id="item_{id}_title_link"]/parent::div/parent::div'
+        PRICE = (
+            'xpath', f'{START_XPATH}//div[contains(@class,"inventory_item_price")]')
+        element_price = self.visibility_element(PRICE)
+        assert element_price.text, 'Цена пуста'
         if pr_price:
             assert pr_price in element_price.text, f'Заголовок не совпадает с "{
-                pr_price}". Текст: "{element_header.text}"'
+                pr_price}". Текст: "{element_price.text}"'

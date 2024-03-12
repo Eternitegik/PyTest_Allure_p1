@@ -3,6 +3,7 @@ from base.base_test import BaseTest
 
 
 @allure.feature("Проверка страницы авторизации")
+@allure.story("Authorization")
 class TestLogin(BaseTest):
 
     @allure.title("Проверка на успешную авторизацию")

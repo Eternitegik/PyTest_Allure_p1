@@ -11,11 +11,11 @@ class BasePage:
         self.fast_wait = WebDriverWait(driver, 1)
 
     def open(self):
-        with allure.step(f'Open {self.PAGE_URL} page'):
+        with allure.step(f'Открыть страницу {self.PAGE_URL}'):
             self.driver.get(self.PAGE_URL)
 
     def is_opened(self):
-        with allure.step(f'Page {self.PAGE_URL} is open'):
+        with allure.step(f'Страница {self.PAGE_URL} открыта'):
             self.wait.until(EC.url_to_be(self.PAGE_URL))
 
     def element_clickable(self, xpath):
