@@ -32,10 +32,10 @@ jobs:
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
         run: |
           if [ "${{ github.event.inputs.test-type }}" == "regression" ]; then
-            xport TEST_ARGS=""
+            export TEST_ARGS=""
             docker-compose up --exit-code-from regression || true
           else
-            xport TEST_ARGS="--allure-stories=${{ github.event.inputs.test-type }}"
+            export TEST_ARGS="--allure-stories=${{ github.event.inputs.test-type }}"
             docker-compose up --exit-code-from regression
           fi
 
