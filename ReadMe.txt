@@ -25,3 +25,9 @@ Docker: python:3.12-alpine3.19
 
 Установка необходимых компонентов для автотестов из файла:
  pip install -r requirements.txt
+
+Запуск тестов с генерацией файлов для отчета
+ pytest --alluredir=allure-results
+
+Генерация Alluer файлов 
+ allure generate allure-results --clean -o allure-report 

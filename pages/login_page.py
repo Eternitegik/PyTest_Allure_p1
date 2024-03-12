@@ -1,7 +1,6 @@
 import allure
 from base.base_page import BasePage
 from config.links import Links
-from selenium.webdriver.support import expected_conditions as EC
 
 
 class LoginPage(BasePage):
@@ -13,15 +12,12 @@ class LoginPage(BasePage):
 
     @allure.step('Заполнение поля "Username"')
     def enter_login(self, login):
-        self.wait.until(EC.element_to_be_clickable(
-            self.USERNAME_FIELD)).send_keys(login)
+        self.element_clickable(self.USERNAME_FIELD).send_keys(login)
 
     def enter_password(self, password):
         with allure.step(f'Заполнение поля "Password"'):
-            self.wait.until(EC.element_to_be_clickable(
-                self.PASSWORD_FIELD)).send_keys(password)
+            self.element_clickable(self.PASSWORD_FIELD).send_keys(password)
 
     @allure.step('Нажатие на кнопку "Login"')
     def click_login_btn(self):
-        self.wait.until(EC.element_to_be_clickable(
-            self.SUBMIT_BTN)).click()
+        self.element_clickable(self.SUBMIT_BTN).click()

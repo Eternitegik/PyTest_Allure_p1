@@ -1,10 +1,9 @@
-import time
 import allure
 from base.base_test import BaseTest
 
 
-@allure.feature("Проверка страницы магазина")
-class TestInventoryPage(BaseTest):
+@allure.feature("Проверка страницы товаров")
+class TestInventory(BaseTest):
 
     @allure.title("Проверка открытия меню")
     @allure.severity("Critical")
@@ -18,11 +17,22 @@ class TestInventoryPage(BaseTest):
         self.inventory_page.close_menu()
         assert not self.inventory_page.menu_is_open()
 
+    @allure.title("Проверка списка товаров")
+    @allure.severity("Critical")
+    def test_products_list(self):
+        self.fast_authorization()
+
+        self.inventory_page.is_opened()
+        self.inventory_page.list_products_not_empty()
+        self.inventory_page.check_product_img()
+        self.inventory_page.check_product_description()
+
     @allure.title("Проверка добавления покупки в корзину")
     @allure.severity("Critical")
     def test_add_purchase_cart(self):
         self.fast_authorization()
 
+        self.inventory_page.is_opened()
         self.inventory_page.check_shopping_cart_badge()
         self.inventory_page.check_text_item_btn("Add to cart")
         self.inventory_page.click_btn_add_cart()
