@@ -9,7 +9,7 @@ on:
         default: 'all'
         type: choice
         options:
-          - all
+          - regression
           - authorization
           - inventory
 
@@ -31,13 +31,7 @@ jobs:
           USER_LOGIN: ${{ secrets.USER_LOGIN }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
         run: |
-          if [ "${{ github.event.inputs.test-type }}" == "all" ]; then
-            docker-compose up --exit-code-from --service-ports regression || true
-          elif [ "${{ github.event.inputs.test-type }}" == "authorization" ]; then
-            docker-compose up --exit-code-from --service-ports authorization || true
-          elif [ "${{ github.event.inputs.test-type }}" == "inventory" ]; then
-            docker-compose up --exit-code-from --service-ports inventory || true
-          fi
+          docker-compose up --exit-code-from ${{ github.event.inputs.test-type }} || true
 
       - name: Copy history from gh-pages to allure-results
         run: |
