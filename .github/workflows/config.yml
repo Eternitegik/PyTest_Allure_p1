@@ -32,11 +32,11 @@ jobs:
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
         run: |
           if [ "${{ github.event.inputs.test-type }}" == "all" ]; then
-            docker-compose up --exit-code-from regression || true
+            docker-compose up --exit-code-from --service-ports regression || true
           elif [ "${{ github.event.inputs.test-type }}" == "Authorization" ]; then
-            docker-compose up --exit-code-from authorization || true
+            docker-compose up --exit-code-from --service-ports authorization || true
           elif [ "${{ github.event.inputs.test-type }}" == "Inventory" ]; then
-            docker-compose up --exit-code-from inventory || true
+            docker-compose up --exit-code-from --service-ports inventory || true
           fi
 
       - name: Copy history from gh-pages to allure-results
