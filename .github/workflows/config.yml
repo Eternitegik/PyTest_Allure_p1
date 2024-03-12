@@ -10,8 +10,8 @@ on:
         type: choice
         options:
           - regression
-          - authorization
-          - inventory
+          - Authorization
+          - Inventory
 
 jobs:
   ui-tests:
@@ -31,7 +31,11 @@ jobs:
           USER_LOGIN: ${{ secrets.USER_LOGIN }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
         run: |
-          docker-compose up --exit-code-from --service-ports ${{ github.event.inputs.test-type }} || true
+          if [ "${{ github.event.inputs.test-type }}" == "regression" ]; then
+            docker-compose up --exit-code-from regression || true
+          else
+            xport TEST_ARGS="--allure-stories=${{ github.event.inputs.test-type }}"
+            docker-compose up --exit-code-from regression
 
       - name: Copy history from gh-pages to allure-results
         run: |
