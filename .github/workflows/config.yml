@@ -31,7 +31,7 @@ jobs:
           USER_LOGIN: ${{ secrets.USER_LOGIN }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
         run: |
-          docker-compose up --exit-code-from ${{ github.event.inputs.test-type }} || true
+          docker-compose up --exit-code-from --service-ports ${{ github.event.inputs.test-type }} || true
 
       - name: Copy history from gh-pages to allure-results
         run: |
