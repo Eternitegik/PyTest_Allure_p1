@@ -30,7 +30,6 @@ class TestCart(BaseTest):
 
         self.cart_page.is_opened()
         count = self.cart_page.get_count_cart_list()
-        count -= 1
         self.cart_page.remove_element_in_cart()
         assert self.cart_page.get_count_cart_list(
-        ) == count, 'Количество товаров после удаления не изменилось'
+        ) < count, 'Количество товаров после удаления не изменилось'

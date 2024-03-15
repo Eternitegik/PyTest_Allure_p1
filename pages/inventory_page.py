@@ -64,7 +64,7 @@ class InventoryPage(BasePage):
     def check_shopping_cart_badge(self, count=0):
         '''Если count=0, то будет проверенно на наличие бейджа.
             Если при "0" бейд есть, то будет ошибка.'''
-        if count == 0:
+        if not count:
             with allure.step(f'Проверка что у корзины нет бейджа'):
                 try:
                     self.fast_wait.until(EC.visibility_of_element_located(
@@ -86,7 +86,7 @@ class InventoryPage(BasePage):
     @allure.step('Проверка что список продуктов не пуст')
     def list_products_not_empty(self):
         elements = self.visibility_all_elements(self.INVENTORY_LIST)
-        assert len(elements) != 0
+        assert len(elements)
 
     @allure.step('Проверка наличия изображения в карточке товара')
     def check_product_img(self, id=0, img_name=''):
